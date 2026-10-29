@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>অভ্র ↔ বিজয় বাংলা কনভার্টার — ফ্রি অনলাইন টুল</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Kalpurush for Bengali typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kalpurush&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body, input, textarea, button, select {
+      font-family: 'Kalpurush', 'Inter', sans-serif;
+    }
+    .font-latin {
+      font-family: 'Inter', sans-serif;
+    }
+    textarea::-webkit-scrollbar {
+      width: 6px;
+    }
+    textarea::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+    textarea::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    textarea::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .custom-shadow {
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -2px rgba(15, 23, 42, 0.03);
+    }
+  </style>
+</head>
+<body class="bg-[#F4F7FB] text-slate-800 min-h-screen flex flex-col justify-between selection:bg-emerald-600 selection:text-white">
+
+  <!-- Desktop App Shell Container -->
+  <div class="flex-grow flex flex-col w-full">
+
+    <!-- Top Minimal Header Bar -->
+    <header class="bg-white border-b border-slate-200/80 px-4 sm:px-8 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+      <!-- Main Branding with by Nasim Bin Jasim -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shadow-sm shadow-emerald-600/30">
+          অ
+        </div>
+        <div>
+          <h1 class="font-bold text-slate-900 text-base leading-tight flex items-center">
+            অভ্র ↔ বিজয়
+            <sup class="text-[9px] text-emerald-600 font-bold ml-1.5 font-latin">by Nasim Bin Jasim</sup>
+          </h1>
+          <div class="text-[11px] text-slate-400 font-medium">বাংলা কনভার্টার — ফ্রি অনলাইন টুল</div>
+        </div>
+      </div>
+
+      <!-- Right Status & Controls -->
+      <div class="flex items-center gap-3 sm:gap-4 ml-auto">
+        <!-- Reset Button -->
+        <button id="resetAllBtn" title="সব লেখা মুছে ফেলুন" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-600 text-xs font-semibold transition">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-slate-500"></i>
+          <span>রিসেট</span>
+        </button>
+
+        <!-- Offline Indicator Pill -->
+        <div class="flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200/80 px-3 py-1.5 rounded-full text-xs font-medium">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>অফলাইন মোড</span>
+        </div>
+
+        <!-- User Avatar Placeholder -->
+        <button class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-600 transition">
+          <i data-lucide="user" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Content -->
+    <main class="p-4 sm:p-6 lg:p-8 max-w-[1360px] mx-auto w-full space-y-6 flex-grow">
+        
+      <!-- Header Banner Section -->
+      <div id="converterSection" class="flex items-start gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold text-2xl shadow-lg shadow-emerald-600/20 shrink-0">
+          অ
+        </div>
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight flex items-center flex-wrap gap-2">
+            অভ্র ↔ বিজয় বাংলা কনভার্টার
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            একই লেখাকে দুই ফরম্যাটে — সহজে, দ্রুত, নির্ভুলভাবে
+          </p>
+        </div>
+      </div>
+
+      <!-- Converter Main Grid (Workspace + Recent History Sidebar) -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
+          
+          <!-- Left/Center: Dual Converter Box (8 Cols on XL) -->
+          <div class="xl:col-span-8 bg-white border border-slate-200/80 rounded-3xl p-5 sm:p-7 custom-shadow space-y-6 flex flex-col justify-between">
+            
+            <!-- Mode Switch Header Pills -->
+            <div class="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+              <button id="modeUniToBijoy" class="px-5 sm:px-7 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition-all">
+                অভ্র → বিজয়
+              </button>
+              
+              <button id="swapBtn" title="দিক পরিবর্তন করুন" class="p-2.5 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-600 transition active:scale-95">
+                <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+              </button>
+
+              <button id="modeBijoyToUni" class="px-5 sm:px-7 py-2.5 rounded-xl font-medium text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all">
+                বিজয় → অভ্র
+              </button>
+            </div>
+
+            <!-- Input & Output Boxes Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              
+              <!-- Input Card -->
+              <div class="border border-slate-200 rounded-2xl p-4 flex flex-col bg-white">
+                <div class="flex items-center justify-between mb-2">
+                  <span id="inputBoxTitle" class="text-xs font-bold text-slate-800">ইনপুট (অভ্র ফরম্যাট)</span>
+                  <span id="inputBadge" class="bg-emerald-50 text-emerald-700 font-latin text-[11px] font-semibold px-2 py-0.5 rounded-md border border-emerald-100">Unicode (Avro)</span>
+                </div>
+                
+                <textarea 
+                  id="inputText" 
+                  rows="7"
+                  placeholder="এখানে অভ্র বা ইউনিকোড টেক্সট লিখুন..." 
+                  class="w-full flex-grow resize-none text-slate-800 text-sm outline-none placeholder:text-slate-400 leading-relaxed font-normal py-1"
+                  spellcheck="false"
+                >বাংলাদেশ একটি সুন্দর দেশ।
+আমরা সবাই মিলে দেশকে আরও এগিয়ে নেব।</textarea>
+
+                <div class="text-right text-[11px] text-slate-400 font-latin mb-3">
+                  <span id="inputCharCount">0</span>/5000
+                </div>
+
+                <!-- Input Footer Controls -->
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <label class="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold cursor-pointer transition">
+                    <i data-lucide="upload" class="w-3.5 h-3.5 text-slate-500"></i>
+                    <span>ফাইল আপলোড</span>
+                    <input type="file" id="fileInputDirect" accept=".txt" class="hidden">
+                  </label>
+
+                  <div class="relative">
+                    <select id="formatSelector" class="appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold py-2 pl-3 pr-8 rounded-xl outline-none cursor-pointer">
+                      <option value="uni2bijoy">অভ্র (Unicode)</option>
+                      <option value="bijoy2uni">বিজয় (ANSI)</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-500 absolute right-2.5 top-2.5 pointer-events-none"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Output Card -->
+              <div class="border border-slate-200 rounded-2xl p-4 flex flex-col bg-white">
+                <div class="flex items-center justify-between mb-2">
+                  <span id="outputBoxTitle" class="text-xs font-bold text-slate-800">আউটপুট (বিজয় ফরম্যাট)</span>
+                  <span id="outputBadge" class="bg-blue-50 text-blue-700 font-latin text-[11px] font-semibold px-2 py-0.5 rounded-md border border-blue-100">Bijoy (ANSI)</span>
+                </div>
+
+                <textarea 
+                  id="outputText" 
+                  rows="7"
+                  readonly
+                  placeholder="রূপান্তরিত ফলাফল এখানে দেখাবে..." 
+                  class="w-full flex-grow resize-none text-slate-800 text-sm outline-none bg-transparent placeholder:text-slate-400 leading-relaxed font-normal py-1"
+                  spellcheck="false"
+                ></textarea>
+
+                <div class="text-right text-[11px] text-slate-400 font-latin mb-3">
+                  <span id="outputCharCount">0</span>/5000
+                </div>
+
+                <!-- Output Footer Actions -->
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <button id="copyOutputBtn" class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition active:scale-95 shadow-sm shadow-blue-500/20">
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                    <span>কপি করুন</span>
+                  </button>
+
+                  <button id="downloadOutputBtn" class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold transition active:scale-95">
+                    <i data-lucide="download" class="w-3.5 h-3.5 text-slate-500"></i>
+                    <span>ডাউনলোড</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Central Convert Button -->
+            <div class="flex justify-center pt-2">
+              <button id="convertActionBtn" class="w-full sm:w-auto px-10 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition-all active:scale-98">
+                <i data-lucide="repeat" class="w-4 h-4"></i>
+                <span>কনভার্ট করুন</span>
+              </button>
+            </div>
+
+            <!-- Features Highlights Row -->
+            <div class="pt-5 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 text-center">
+              <div class="flex items-center gap-2.5 justify-center sm:justify-start">
+                <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                  <i data-lucide="copy-check" class="w-4 h-4"></i>
+                </div>
+                <div class="text-left">
+                  <div class="text-[11px] font-bold text-slate-800 leading-tight">এক ক্লিকে কপি</div>
+                  <div class="text-[10px] text-slate-400">দ্রুত ও সহজ</div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2.5 justify-center sm:justify-start">
+                <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                  <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+                </div>
+                <div class="text-left">
+                  <div class="text-[11px] font-bold text-slate-800 leading-tight">ফরম্যাট পরিবর্তন</div>
+                  <div class="text-[10px] text-slate-400">অভ্র ↔ বিজয়</div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2.5 justify-center sm:justify-start">
+                <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                  <i data-lucide="file-up" class="w-4 h-4"></i>
+                </div>
+                <div class="text-left">
+                  <div class="text-[11px] font-bold text-slate-800 leading-tight">ফাইল আপলোড</div>
+                  <div class="text-[10px] text-slate-400">.txt, .doc</div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2.5 justify-center sm:justify-start">
+                <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                  <i data-lucide="wifi-off" class="w-4 h-4"></i>
+                </div>
+                <div class="text-left">
+                  <div class="text-[11px] font-bold text-slate-800 leading-tight">অফলাইন ব্যবহার</div>
+                  <div class="text-[10px] text-slate-400">ইন্টারনেট ছাড়াই</div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2.5 justify-center sm:justify-start col-span-2 sm:col-span-1">
+                <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                  <i data-lucide="shield-check" class="w-4 h-4"></i>
+                </div>
+                <div class="text-left">
+                  <div class="text-[11px] font-bold text-slate-800 leading-tight">১০০% নির্ভুল</div>
+                  <div class="text-[10px] text-slate-400">এনকোডিং কনভার্সন</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Sidebar: Recent History (4 Cols on XL) -->
+          <div id="recentHistoryCard" class="xl:col-span-4 bg-white border border-slate-200/80 rounded-3xl p-5 sm:p-6 custom-shadow flex flex-col justify-between h-full">
+            <div class="flex flex-col flex-grow overflow-hidden">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4 shrink-0">
+                <h3 class="text-base font-bold text-slate-900">সাম্প্রতিক হিস্টোরি</h3>
+                <button id="clearAllHistoryLink" class="text-xs text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-0.5">
+                  <span>সব দেখুন</span>
+                  <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                </button>
+              </div>
+
+              <!-- History List Items (Scrollable and takes full available vertical space) -->
+              <div id="recentHistoryContainer" class="space-y-3 flex-grow overflow-y-auto pr-1 max-h-[380px] xl:max-h-[460px]">
+                <!-- Dynamically populated or default fallback preview -->
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-100 text-center shrink-0">
+              <span class="text-[11px] text-slate-400">সর্বোচ্চ ১০টি কনভার্সন লোকাল স্টোরেজে সংরক্ষিত থাকে</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom Compact Cards (Reduced height and padding, unwanted cards removed) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          
+          <!-- Card 1: Compact File Upload Box -->
+          <div id="fileUploadCard" class="bg-white border border-slate-200/80 rounded-2xl p-3.5 custom-shadow flex flex-col justify-between">
+            <div>
+              <h4 class="text-xs font-bold text-slate-900 mb-2 flex items-center gap-1.5">
+                <i data-lucide="file-up" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>ফাইল আপলোড</span>
+              </h4>
+              <div id="dropZone" class="border border-dashed border-blue-200 hover:border-blue-400 rounded-xl p-2.5 text-center bg-blue-50/30 cursor-pointer transition mb-2">
+                <div class="flex items-center justify-center gap-2">
+                  <i data-lucide="cloud-upload" class="w-4 h-4 text-blue-500"></i>
+                  <span class="text-xs font-semibold text-blue-700">ফাইল নির্বাচন করুন</span>
+                  <span class="text-[10px] text-slate-400">(.txt সর্বোচ্চ 5MB)</span>
+                </div>
+                <input type="file" id="bottomFileInput" accept=".txt" class="hidden">
+              </div>
+
+              <!-- Compact Uploaded Item -->
+              <div class="bg-slate-50 border border-slate-100 rounded-lg px-2.5 py-1.5 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="file-text" class="w-3.5 h-3.5 text-blue-600"></i>
+                  <span class="font-medium text-slate-700 text-[11px]">প্রবন্ধ.txt (2.4 KB)</span>
+                </div>
+                <button onclick="document.getElementById('bottomFileInput').click()" class="text-[11px] text-emerald-600 hover:text-emerald-700 font-semibold">
+                  আপলোড
+                </button>
+              </div>
+            </div>
+
+            <div class="text-[10px] text-slate-400 mt-2 pt-1 border-t border-slate-100">
+              .txt ফাইল সরাসরি ইনপুট বক্সে কনভার্ট করার জন্য আপলোড করুন।
+            </div>
+          </div>
+
+          <!-- Card 2: Compact Format Switcher Detail -->
+          <div class="bg-white border border-slate-200/80 rounded-2xl p-3.5 custom-shadow flex flex-col justify-between">
+            <div>
+              <h4 class="text-xs font-bold text-slate-900 mb-2 flex items-center gap-1.5">
+                <i data-lucide="arrow-left-right" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>ফরম্যাট পরিবর্তন</span>
+              </h4>
+              
+              <div class="relative">
+                <!-- Compact Trigger Button -->
+                <button id="formatDropdownTrigger" type="button" class="w-full px-3 py-2 rounded-xl border border-slate-200 hover:border-slate-300 bg-slate-50 flex items-center justify-between text-xs font-semibold text-slate-700 transition cursor-pointer">
+                  <span id="selectedFormatLabel" class="flex items-center gap-1.5">
+                    <i data-lucide="type" class="w-3.5 h-3.5 text-emerald-600"></i> 
+                    <span>অভ্র (Unicode)</span>
+                  </span>
+                  <i id="dropdownArrow" data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200"></i>
+                </button>
+
+                <!-- Compact Dropdown Menu List -->
+                <div id="formatDropdownMenu" class="hidden mt-1 p-1.5 rounded-xl bg-blue-50/95 border border-blue-100 text-xs font-medium text-slate-700 space-y-1 shadow-sm">
+                  <div data-value="uni2bijoy" class="format-option flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-blue-100/70 text-blue-700 font-semibold cursor-pointer transition hover:bg-blue-200/60">
+                    <span class="flex items-center gap-1.5"><i data-lucide="type" class="w-3.5 h-3.5"></i> অভ্র (Unicode)</span>
+                    <i data-lucide="check" class="check-icon w-3.5 h-3.5 text-blue-700"></i>
+                  </div>
+                  <div data-value="bijoy2uni" class="format-option flex items-center justify-between px-2.5 py-1.5 rounded-lg text-slate-600 hover:text-blue-700 hover:bg-blue-100/50 cursor-pointer transition">
+                    <span class="flex items-center gap-1.5"><i data-lucide="file-code" class="w-3.5 h-3.5"></i> বিজয় (ANSI)</span>
+                    <i data-lucide="check" class="check-icon w-3.5 h-3.5 text-blue-700 hidden"></i>
+                  </div>
+                  <div data-value="bijoy2uni" class="format-option flex items-center justify-between px-2.5 py-1.5 rounded-lg text-slate-600 hover:text-blue-700 hover:bg-blue-100/50 cursor-pointer transition">
+                    <span class="flex items-center gap-1.5"><i data-lucide="file-code" class="w-3.5 h-3.5"></i> বিজয় (Old)</span>
+                    <i data-lucide="check" class="check-icon w-3.5 h-3.5 text-blue-700 hidden"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-[10px] text-slate-400 mt-2 pt-1 border-t border-slate-100">
+              অভ্র ↔ বিজয় যেকোনো ফরম্যাট সহজে নির্বাচন করুন।
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+      <!-- Bottom Dark Status Bar (Matching Image Bottom Bar) -->
+      <footer class="bg-[#0A1628] text-slate-300 py-3.5 px-4 sm:px-8 border-t border-slate-800 text-xs flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>সহজ • দ্রুত • নির্ভুল</span>
+        </div>
+
+        <div class="text-slate-400 text-center font-medium">
+          অভ্র ↔ বিজয় বাংলা কনভার্টার &nbsp;|&nbsp; বাংলা ভাষার প্রযুক্তিগত সহায়তা
+        </div>
+
+        <div class="text-emerald-400 font-latin text-[11px] font-semibold flex items-center gap-1">
+          Made for Bangladesh 💚
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <!-- Mobile Floating Bottom Navigation (Visible only on mobile devices) -->
+  <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 py-2 px-4 z-40 flex items-center justify-around shadow-lg">
+    <a href="#" class="flex flex-col items-center gap-1 text-emerald-600">
+      <i data-lucide="home" class="w-5 h-5"></i>
+      <span class="text-[10px] font-semibold">হোম</span>
+    </a>
+    <a href="#recentHistoryCard" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600">
+      <i data-lucide="history" class="w-5 h-5"></i>
+      <span class="text-[10px]">হিস্টোরি</span>
+    </a>
+    <a href="#fileUploadCard" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600">
+      <i data-lucide="file-text" class="w-5 h-5"></i>
+      <span class="text-[10px]">ফাইল</span>
+    </a>
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600">
+      <i data-lucide="settings" class="w-5 h-5"></i>
+      <span class="text-[10px]">সেটিংস</span>
+    </button>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-5 right-5 z-50 transform -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 border border-slate-700">
+      <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+      <span id="toastMsg">ক্লিপবোর্ডে কপি সম্পন্ন!</span>
+    </div>
+  </div>
+
+  <!-- Core JavaScript & Encoding Logic -->
+  <script>
+    lucide.createIcons();
+
+    // DOM References
+    const inputText = document.getElementById('inputText');
+    const outputText = document.getElementById('outputText');
+    const inputBoxTitle = document.getElementById('inputBoxTitle');
+    const outputBoxTitle = document.getElementById('outputBoxTitle');
+    const inputBadge = document.getElementById('inputBadge');
+    const outputBadge = document.getElementById('outputBadge');
+    const modeUniToBijoy = document.getElementById('modeUniToBijoy');
+    const modeBijoyToUni = document.getElementById('modeBijoyToUni');
+    const swapBtn = document.getElementById('swapBtn');
+    const convertActionBtn = document.getElementById('convertActionBtn');
+    const copyOutputBtn = document.getElementById('copyOutputBtn');
+    const downloadOutputBtn = document.getElementById('downloadOutputBtn');
+    const resetAllBtn = document.getElementById('resetAllBtn');
+    const inputCharCount = document.getElementById('inputCharCount');
+    const outputCharCount = document.getElementById('outputCharCount');
+    const recentHistoryContainer = document.getElementById('recentHistoryContainer');
+    const clearAllHistoryLink = document.getElementById('clearAllHistoryLink');
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    const formatSelector = document.getElementById('formatSelector');
+    const fileInputDirect = document.getElementById('fileInputDirect');
+    const bottomFileInput = document.getElementById('bottomFileInput');
+    const formatDropdownTrigger = document.getElementById('formatDropdownTrigger');
+    const formatDropdownMenu = document.getElementById('formatDropdownMenu');
+    const dropdownArrow = document.getElementById('dropdownArrow');
+    const selectedFormatLabel = document.getElementById('selectedFormatLabel');
+    const formatOptions = document.querySelectorAll('.format-option');
+
+    // App State
+    let currentMode = 'uni2bijoy'; // 'uni2bijoy' or 'bijoy2uni'
+    let historyData = [
+      {
+        id: 1,
+        title: "বাংলাদেশ একটি সুন্দর দেশ...",
+        mode: "Avro → Bijoy",
+        time: "আজ, 09:24 AM",
+        input: "বাংলাদেশ একটি সুন্দর দেশ। আমরা সবাই মিলে দেশকে আরও এগিয়ে নেব।",
+        output: "evsjv‡`k GKwU my›`i †`k| Avgiv mevB wg‡j †`k‡K AviI GwM‡q †be|"
+      },
+      {
+        id: 2,
+        title: "আমরা সবাই মিলে দেশকে...",
+        mode: "Bijoy → Avro",
+        time: "আজ, 08:50 AM",
+        input: "Avgiv mevB wg‡j †`k‡K AviI GwM‡q †be|",
+        output: "আমরা সবাই মিলে দেশকে আরও এগিয়ে নেব।"
+      },
+      {
+        id: 3,
+        title: "শিক্ষা, প্রযুক্তি ও উন্নয়ন...",
+        mode: "Avro → Bijoy",
+        time: "গতকাল, 06:32 PM",
+        input: "শিক্ষা, প্রযুক্তি ও উন্নয়ন আমাদের লক্ষ্য।",
+        output: "wkÿv, cÖhyw³ I Dbœqb Avgv‡`i jÿ¨|"
+      }
+    ];
+
+    // Notification Toast
+    function showToast(msg) {
+      toastMsg.innerText = msg;
+      toast.classList.remove('opacity-0', '-translate-y-20');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', '-translate-y-20');
+      }, 2300);
+    }
+
+    // ==========================================
+    //   ACCURATE UNICODE ↔ BIJOY CONVERTER
+    // ==========================================
+
+    // স্ট্যান্ডার্ড বিজয় (ANSI/SutonnyMJ) থেকে ইউনিকোড ম্যাপিং রুলস
+    const bijoyToUniLigatures = {
+      // স্বরবর্ণ ও কম্বিনেশন
+      "Av": "আ", "A‡": "ঐ", "AO": "ঔ",
+      // জটিল ও ৩ বর্ণের যুক্তাক্ষর
+      "ÿ¥": "ক্ষ্ম", "ÿY": "ক্ষ্ণ", "»Ö": "গ্ধ্র", "ZË¡": "তত্ত্ব", "mš¿": "সন্ত্র",
+      "š¿": "ন্ত্র", "›Uª": "ন্ট্র", "¯cÖ": "স্প্র", "¯¿": "স্ত্র", "¯’Ö": "স্থ্র",
+      // ২ বর্ণের যুক্তাক্ষর
+      "°": "ক্ক", "±": "ক্ট", "³": "ক্ত", "K¡": "ক্ব", "K¥": "ক্ম", "K¨": "ক্য", "µ": "ক্র", "K¬": "ক্ল", "ÿ": "ক্ষ",
+      "·": "ক্স", "L¨": "খ্য", "Lª": "খ্র", "½": "ঙ্গ", "»": "গ্ধ", "Mœ": "গ্ন", "M¥": "গ্ম", "M¨": "গ্য", "MÖ": "গ্র",
+      "M¬": "গ্ল", "Nœ": "ঘ্ন", "N¨": "ঘ্য", "NÖ": "ঘ্র", "¼": "ঙ্ক", "•": "ঙ্ক্ষ", "•L": "ঙ্খ", "•N": "ঙ্ঘ",
+      "”": "চ্চ", "”Q": "চ্ছ", "”Q¡": "চ্ছ্ব", "P|": "চ্ঞ", "P¨": "চ্য", "”QÖ": "চ্ছ্র", "¾": "জ্জ", "¾S": "জ্ঝ",
+      "Á": "জ্ঞ", "R¡": "জ্ব", "R¨": "জ্য", "Rª": "জ্র", "Â": "ঞ্চ", "Ã": "ঞ্ছ", "Ä": "ঞ্জ", "U¨": "ট্য", "Uª": "ট্র",
+      "Æ": "ট্ট", "U¡": "ট্ব", "Ç": "ড্ড", "È": "ণ্ট", "É": "ণ্ঠ", "Ê": "ণ্ড", "Y¨": "ণ্য", "Ë": "ত্ত", "Ì": "ত্থ",
+      "Zœ": "ত্ন", "Z¥": "ত্ম", "Z¨": "ত্য", "Î": "ত্র", "Z¡": "ত্ব", "_¡": "থ্ব", "_¨": "থ্য", "_ª": "থ্র", "Ï": "দ্দ",
+      "×": "দ্ধ", "Ø": "দ্ব", "™¢": "দ্ভ", "Ù": "দ্ম", "`¨": "দ্য", "`ª": "দ্র", "aŸ": "ধ্ব", "a¨": "ধ্য", "aÖ": "ধ্র",
+      "›U": "ন্ট", "›V": "ন্ঠ", "Û": "ন্ড", "šÍ": "ন্ত", "šÍ¡": "ন্ত্ব", "š’": "ন্থ", "›`": "ন্দ", "Ü": "ন্ধ",
+      "bœ": "ন্ন", "š^": "ন্ব", "b¥": "ন্ম", "b¨": "ন্য", "Þ": "প্ট", "ß": "প্ত", "cœ": "প্ন", "à": "প্প", "á": "প্স",
+      "c¨": "প্য", "cÖ": "প্র", "cø": "প্ল", "d&U": "ফ্ট", "d«": "ফ্র", "d¬": "ফ্ল", "ã": "ব্দ", "ä": "ব্ধ", "eŸ": "ব্ব",
+      "e¨": "ব্য", "eª": "ব্র", "eø": "ব্ল", "f¨": "ভ্য", "å": "ভ্র", "gœ": "ম্ন", "¤ú": "ম্প", "ç": "ম্ফ", "¤^": "ম্ব",
+      "¤¢": "ম্ভ", "¤§": "ম্ম", "g¨": "ম্য", "gª": "ম্র", "gø": "ম্ল", "h¨": "য্য", "é": "ল্ক", "ê": "ল্গ", "ë": "ল্ট",
+      "ì": "ল্ড", "í": "ল্প", "î": "ল্ফ", "j¡": "ল্ব", "j¥": "ল্ম", "jø": "ল্ল", "j¨": "ল্য", "ð": "শ্চ", "ñ": "শ্ছ",
+      "kœ": "শ্ন", "k¥": "শ্ম", "k¨": "শ্য", "kÖ": "শ্র", "kø": "শ্ল", "k¦": "শ্ব", "®‹": "ষ্ক", "®L": "ষ্খ", "ó": "ষ্ট",
+      "ô": "ষ্ঠ", "ò": "ষ্ণ", "®ú": "ষ্প", "®d": "ষ্ফ", "®§": "ষ্ম", "l¨": "ষ্য", "¯‹": "স্ক", "¯L": "স্খ", "÷": "স্ট",
+      "¯Í": "স্ত", "¯’": "স্থ", "mœ": "স্ন", "¯ú": "স্প", "¯d": "স্ফ", "¯^": "স্ব", "¯§": "স্ম", "m¨": "স্য", "mÖ": "স্র",
+      "mø": "স্ল", "nè": "হ্ণ", "n&b": "হ্ন", "n¥": "হ্ম", "n¨": "হ্য", "n«": "হ্র", "nŸ": "হ্বল", "ü": "হৃ"
+    };
+
+    const bijoyToUniChars = {
+      // স্বরবর্ণ
+      "A": "অ", "B": "ই", "C": "ঈ", "D": "উ", "E": "ঊ", "F": "ঋ", "G": "এ", "H": "ঐ", "I": "ও", "J": "ঔ",
+      // ব্যঞ্জনবর্ণ
+      "K": "ক", "L": "খ", "M": "গ", "N": "ঘ", "O": "ঙ",
+      "P": "চ", "Q": "ছ", "R": "জ", "S": "ঝ", "T": "ঞ",
+      "U": "ট", "V": "ঠ", "W": "ড", "X": "ঢ", "Y": "ণ",
+      "Z": "ত", "_": "থ", "`": "দ", "a": "ধ", "b": "ন",
+      "c": "প", "d": "ফ", "e": "ব", "f": "ভ", "g": "ম",
+      "h": "য", "i": "র", "j": "ল", "k": "শ", "l": "ষ",
+      "m": "স", "n": "হ", "o": "ড়", "p": "ঢ়", "q": "য়",
+      "r": "ৎ", "s": "ং", "t": "ঃ", "u": "ঁ",
+      // সংখ্যা
+      "0": "০", "1": "১", "2": "২", "3": "৩", "4": "৪",
+      "5": "৫", "6": "৬", "7": "৭", "8": "৮", "9": "৯",
+      "|": "।", "‡": "", "†": ""
+    };
+
+    // ইউনিকোড থেকে বিজয়
+    const uniToBijoyLigatures = {};
+    for (const [bijoy, uni] of Object.entries(bijoyToUniLigatures)) {
+      uniToBijoyLigatures[uni] = bijoy;
+    }
+
+    const uniToBijoySingle = {
+      "অ": "A", "আ": "Av", "ই": "B", "ঈ": "C", "উ": "D", "ঊ": "E", "ঋ": "F", "এ": "G", "ঐ": "H", "ও": "I", "ঔ": "J",
+      "ক": "K", "খ": "L", "গ": "M", "ঘ": "N", "ঙ": "O",
+      "চ": "P", "ছ": "Q", "জ": "R", "ঝ": "S", "ঞ": "T",
+      "ট": "U", "ঠ": "V", "ড": "W", "ঢ": "X", "ণ": "Y",
+      "ত": "Z", "থ": "_", "দ": "`", "ধ": "a", "ন": "b",
+      "প": "c", "ফ": "d", "ব": "e", "ভ": "f", "ম": "g",
+      "য": "h", "র": "i", "ল": "j", "শ": "k", "ষ": "l",
+      "স": "m", "হ": "n", "ড়": "o", "ঢ়": "p", "য়": "q",
+      "ৎ": "r", "ং": "s", "ঃ": "t", "ঁ": "u",
+      "০": "0", "১": "1", "২": "2", "৩": "3", "৪": "4",
+      "৫": "5", "৬": "6", "৭": "7", "৮": "8", "৯": "9",
+      "।": "|"
+    };
+
+    function convertUnicodeToBijoy(text) {
+      if (!text) return "";
+      let str = text;
+
+      // ১. রেফ (র্) স্থানান্তর
+      str = str.replace(/([ক-হড়-য়])্([ক-হড়-য়])/g, (m, p1, p2) => (p1 === "র" ? p2 + "©" : m));
+      str = str.replace(/র্([ক-হড়-য়])/g, "$1©");
+
+      // ২. যুক্তাক্ষর রিপ্লেসমেন্ট
+      const sortedUni = Object.keys(uniToBijoyLigatures).sort((a, b) => b.length - a.length);
+      for (const u of sortedUni) {
+        str = str.split(u).join(uniToBijoyLigatures[u]);
+      }
+
+      // ৩. র-ফলা ও য-ফলা
+      str = str.replace(/([ক-হড়-য়])্র/g, "$1ª");
+      str = str.replace(/([ক-হড়-য়])্য/g, "$1¨");
+
+      // ৪. কার চিহ্নের পজিশন রি-অর্ডারিং
+      // ও-কার (ো -> †...v)
+      str = str.replace(/([\u0980-\u09FFa-zA-Z\S])ো/g, "†$1v");
+      // ঔ-কার (ৌ -> †...Š)
+      str = str.replace(/([\u0980-\u09FFa-zA-Z\S])ৌ/g, "†$1Š");
+      // এ-কার (ে -> †)
+      str = str.replace(/([\u0980-\u09FFa-zA-Z\S])ে/g, "†$1");
+      // ঐ-কার (ৈ -> ‰)
+      str = str.replace(/([\u0980-\u09FFa-zA-Z\S])ৈ/g, "‰$1");
+      // ই-কার (ি -> w)
+      str = str.replace(/([\u0980-\u09FFa-zA-Z\S])ি/g, "w$1");
+
+      // অবশিষ্ট কার
+      str = str.replace(/া/g, "v");
+      str = str.replace(/ী/g, "x");
+      str = str.replace(/ু/g, "y");
+      str = str.replace(/ূ/g, "~");
+      str = str.replace(/ৃ/g, "„");
+
+      // ৫. একক বর্ণ রূপান্তর
+      for (const [uni, bijoy] of Object.entries(uniToBijoySingle)) {
+        str = str.split(uni).join(bijoy);
+      }
+
+      str = str.replace(/্/g, "&");
+      return str;
+    }
+
+    function convertBijoyToUnicode(text) {
+      if (!text) return "";
+      let str = text;
+
+      // ১. বিজয়ের উভয় প্রকার এ-কার সিম্বল স্ট্যান্ডার্ড করা († এবং ‡)
+      str = str.replace(/‡/g, "†");
+
+      // ২. ও-কার ও ঔ-কার রি-অর্ডারিং (স্প্লিট ভাওয়েল)
+      // †...v -> ...ো
+      str = str.replace(/†([^†\s]+?)v/g, "$1ো");
+      // †...Š -> ...ৌ
+      str = str.replace(/†([^†\s]+?)Š/g, "$1ৌ");
+
+      // ৩. প্রি-ভাওয়েল সাইন রি-অর্ডারিং (ই-কার, এ-কার, ঐ-কার)
+      // w (হ্রস্ব ই-কার)
+      str = str.replace(/w([^\s\(\)\[\]\{\}\<\>\,\|\.\!\?]+?)/g, "$1ি");
+      // † (এ-কার)
+      str = str.replace(/†([^\s\(\)\[\]\{\}\<\>\,\|\.\!\?]+?)/g, "$1ে");
+      // ‰ (ঐ-কার)
+      str = str.replace(/‰([^\s\(\)\[\]\{\}\<\>\,\|\.\!\?]+?)/g, "$1ৈ");
+
+      // ৪. রেফ রূপান্তর (© -> ব্যঞ্জনবর্ণের পূর্বে র্)
+      str = str.replace(/([^\s]+?)©/g, "র্$1");
+
+      // ৫. 'Av' থাকলে সরাসরি 'আ' করা (যেন কখনোই 'অা' তৈরি না হয়)
+      str = str.replace(/Av/g, "আ");
+
+      // ৬. যুক্তাক্ষর প্রতিস্থাপন (দীর্ঘ থেকে ক্ষুদ্র)
+      const sortedBijoy = Object.keys(bijoyToUniLigatures).sort((a, b) => b.length - a.length);
+      for (const b of sortedBijoy) {
+        str = str.split(b).join(bijoyToUniLigatures[b]);
+      }
+
+      // ৭. অন্যান্য কার চিহ্ন
+      str = str.replace(/v/g, "া");
+      str = str.replace(/x/g, "ী");
+      str = str.replace(/y/g, "ু");
+      str = str.replace(/~/g, "ূ");
+      str = str.replace(/„/g, "ৃ");
+      str = str.replace(/¨/g, "্য");
+      str = str.replace(/ª/g, "্র");
+
+      // ৮. একক বর্ণ ও বাকি ক্যারেক্টার
+      for (const [b, u] of Object.entries(bijoyToUniChars)) {
+        str = str.split(b).join(u);
+      }
+
+      // ৯. ভুলক্রমে কোথাও 'অা' চলে এলে তা স্বয়ংক্রিয় 'আ'-তে পরিবর্তন
+      str = str.replace(/অা/g, "আ");
+      str = str.replace(/অে/g, "এ");
+      str = str.replace(/অো/g, "ও");
+
+      return str;
+    }
+
+    // Perform Conversion
+    function performConversion() {
+      const val = inputText.value;
+      inputCharCount.innerText = val.length;
+
+      if (!val) {
+        outputText.value = '';
+        outputCharCount.innerText = '0';
+        return;
+      }
+
+      if (currentMode === 'uni2bijoy') {
+        outputText.value = convertUnicodeToBijoy(val);
+      } else {
+        outputText.value = convertBijoyToUnicode(val);
+      }
+      outputCharCount.innerText = outputText.value.length;
+    }
+
+    // Switch Mode
+    function setMode(mode) {
+      currentMode = mode;
+      if (mode === 'uni2bijoy') {
+        modeUniToBijoy.className = "px-5 sm:px-7 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition-all";
+        modeBijoyToUni.className = "px-5 sm:px-7 py-2.5 rounded-xl font-medium text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all";
+        inputBoxTitle.innerText = "ইনপুট (অভ্র ফরম্যাট)";
+        inputBadge.innerText = "Unicode (Avro)";
+        inputBadge.className = "bg-emerald-50 text-emerald-700 font-latin text-[11px] font-semibold px-2 py-0.5 rounded-md border border-emerald-100";
+        outputBoxTitle.innerText = "আউটপুট (বিজয় ফরম্যাট)";
+        outputBadge.innerText = "Bijoy (ANSI)";
+        outputBadge.className = "bg-blue-50 text-blue-700 font-latin text-[11px] font-semibold px-2 py-0.5 rounded-md border border-blue-100";
+        inputText.placeholder = "এখানে অভ্র বা ইউনিকোড টেক্সট লিখুন...";
+        formatSelector.value = "uni2bijoy";
+        selectedFormatLabel.innerHTML = `<i data-lucide="type" class="w-4 h-4 text-emerald-600"></i><span>অভ্র (Unicode)</span>`;
+      } else {
+        modeBijoyToUni.className = "px-5 sm:px-7 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition-all";
+        modeUniToBijoy.className = "px-5 sm:px-7 py-2.5 rounded-xl font-medium text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all";
+        inputBoxTitle.innerText = "ইনপুট (বিজয় ফরম্যাট)";
+        inputBadge.innerText = "Bijoy (ANSI)";
+        inputBadge.className = "bg-blue-50 text-blue-700 font-latin text-[11px] font-semibold px-2 py-0.5 rounded-md border border-blue-100";
+        outputBoxTitle.innerText = "আউটপুট (অভ্র ফরম্যাট)";
+        outputBadge.innerText = "Unicode (Avro)";
+        outputBadge.className = "bg-emerald-50 text-emerald-700 font-latin text-[11px] font-semibold px-2 py-0.5 rounded-md border border-emerald-100";
+        inputText.placeholder = "এখানে বিজয় (ANSI) টেক্সট লিখুন বা পেস্ট করুন...";
+        formatSelector.value = "bijoy2uni";
+        selectedFormatLabel.innerHTML = `<i data-lucide="file-code" class="w-4 h-4 text-blue-600"></i><span>বিজয় (ANSI)</span>`;
+      }
+      lucide.createIcons();
+      performConversion();
+    }
+
+    // Toggle Bottom Format Dropdown
+    if (formatDropdownTrigger) {
+      formatDropdownTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = !formatDropdownMenu.classList.contains('hidden');
+        if (isOpen) {
+          formatDropdownMenu.classList.add('hidden');
+          dropdownArrow.classList.remove('rotate-180');
+        } else {
+          formatDropdownMenu.classList.remove('hidden');
+          dropdownArrow.classList.add('rotate-180');
+        }
+      });
+    }
+
+    // Handle Option Selection
+    formatOptions.forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = opt.getAttribute('data-value');
+        const text = opt.querySelector('span').innerText.trim();
+        const icon = opt.querySelector('span i') ? opt.querySelector('span i').getAttribute('data-lucide') : 'type';
+
+        // Update selected trigger label
+        selectedFormatLabel.innerHTML = `<i data-lucide="${icon}" class="w-4 h-4 text-emerald-600"></i><span>${text}</span>`;
+        lucide.createIcons();
+
+        // Update active style in menu
+        formatOptions.forEach(item => {
+          item.className = "format-option flex items-center justify-between px-2.5 py-1.5 rounded-lg text-slate-600 hover:text-blue-700 hover:bg-blue-100/50 cursor-pointer transition";
+          const check = item.querySelector('.check-icon');
+          if (check) check.classList.add('hidden');
+        });
+        opt.className = "format-option flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-blue-100/70 text-blue-700 font-semibold cursor-pointer transition hover:bg-blue-200/60";
+        const myCheck = opt.querySelector('.check-icon');
+        if (myCheck) myCheck.classList.remove('hidden');
+
+        // Close dropdown
+        formatDropdownMenu.classList.add('hidden');
+        dropdownArrow.classList.remove('rotate-180');
+
+        // Trigger conversion mode
+        setMode(val);
+        showToast(`${text} ফরম্যাট নির্বাচিত হয়েছে`);
+      });
+    });
+
+    // Close dropdown on click outside
+    document.addEventListener('click', (e) => {
+      if (formatDropdownMenu && !formatDropdownMenu.contains(e.target) && !formatDropdownTrigger.contains(e.target)) {
+        formatDropdownMenu.classList.add('hidden');
+        dropdownArrow.classList.remove('rotate-180');
+      }
+    });
+
+    // Swap Direction & Content
+    function swapMode() {
+      const tempIn = inputText.value;
+      const tempOut = outputText.value;
+      const newMode = currentMode === 'uni2bijoy' ? 'bijoy2uni' : 'uni2bijoy';
+      
+      setMode(newMode);
+      if (tempOut) {
+        inputText.value = tempOut;
+        performConversion();
+      }
+      showToast('দিক পরিবর্তন করা হয়েছে!');
+    }
+
+    // Save into History
+    function recordHistory() {
+      const inVal = inputText.value.trim();
+      const outVal = outputText.value.trim();
+      if (!inVal || !outVal) return;
+
+      const title = inVal.length > 22 ? inVal.slice(0, 22) + '...' : inVal;
+      const modeLabel = currentMode === 'uni2bijoy' ? 'Avro → Bijoy' : 'Bijoy → Avro';
+
+      historyData.unshift({
+        id: Date.now(),
+        title: title,
+        mode: modeLabel,
+        time: "এখনই",
+        input: inVal,
+        output: outVal
+      });
+
+      if (historyData.length > 10) historyData = historyData.slice(0, 10);
+      renderHistoryUI();
+    }
+
+    // Render History Card UI
+    function renderHistoryUI() {
+      recentHistoryContainer.innerHTML = '';
+      historyData.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = "p-3 rounded-2xl border border-slate-100 hover:border-slate-200 bg-white hover:bg-slate-50/60 transition flex items-start justify-between gap-3 cursor-pointer group";
+        div.onclick = () => loadHistoryItem(item.id);
+
+        const isGreen = index % 2 === 0;
+        const iconColor = isGreen ? 'text-blue-600 bg-blue-50' : 'text-emerald-600 bg-emerald-50';
+
+        div.innerHTML = `
+          <div class="flex items-start gap-3 truncate">
+            <div class="w-8 h-8 rounded-xl ${iconColor} flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <div class="truncate text-xs">
+              <div class="font-bold text-slate-800 truncate group-hover:text-emerald-600 transition">${item.title}</div>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="text-[10px] font-semibold text-blue-600 bg-blue-50 px-1.5 py-0.2 rounded font-latin">${item.mode}</span>
+                <span class="text-[10px] text-slate-400 font-latin">${item.time}</span>
+              </div>
+            </div>
+          </div>
+          <button class="text-slate-400 hover:text-slate-600 p-1 shrink-0">
+            <i data-lucide="more-vertical" class="w-3.5 h-3.5"></i>
+          </button>
+        `;
+        recentHistoryContainer.appendChild(div);
+      });
+      lucide.createIcons();
+    }
+
+    function loadHistoryItem(id) {
+      const itm = historyData.find(x => x.id === id);
+      if (!itm) return;
+      if (itm.mode.includes('Bijoy →') && currentMode !== 'bijoy2uni') {
+        setMode('bijoy2uni');
+      } else if (itm.mode.includes('Avro →') && currentMode !== 'uni2bijoy') {
+        setMode('uni2bijoy');
+      }
+      inputText.value = itm.input;
+      performConversion();
+      showToast('হিস্টোরি থেকে লোড করা হয়েছে');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Read File
+    function handleFileUpload(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        inputText.value = e.target.result;
+        performConversion();
+        showToast(`${file.name} ফাইলটি লোড করা হয়েছে!`);
+      };
+      reader.readAsText(file);
+    }
+
+    // File Input Listeners
+    fileInputDirect.addEventListener('change', (e) => handleFileUpload(e.target.files[0]));
+    bottomFileInput.addEventListener('change', (e) => handleFileUpload(e.target.files[0]));
+
+    // Drag and Drop
+    const dropZone = document.getElementById('dropZone');
+    dropZone.addEventListener('click', () => bottomFileInput.click());
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('bg-blue-100'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('bg-blue-100'));
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('bg-blue-100');
+      if (e.dataTransfer.files.length) handleFileUpload(e.dataTransfer.files[0]);
+    });
+
+    // Event Bindings
+    inputText.addEventListener('input', performConversion);
+    modeUniToBijoy.addEventListener('click', () => setMode('uni2bijoy'));
+    modeBijoyToUni.addEventListener('click', () => setMode('bijoy2uni'));
+    swapBtn.addEventListener('click', swapMode);
+
+    formatSelector.addEventListener('change', (e) => {
+      setMode(e.target.value);
+    });
+
+    convertActionBtn.addEventListener('click', () => {
+      performConversion();
+      recordHistory();
+      showToast('কনভার্ট সফল হয়েছে!');
+    });
+
+    resetAllBtn.addEventListener('click', () => {
+      inputText.value = '';
+      outputText.value = '';
+      performConversion();
+      showToast('সব ফিল্ড রিসেট করা হয়েছে');
+    });
+
+    copyOutputBtn.addEventListener('click', () => {
+      if (!outputText.value) {
+        showToast('কপি করার জন্য কোনো লেখা নেই!');
+        return;
+      }
+      outputText.select();
+      document.execCommand('copy');
+      showToast('আউটপুট ক্লিপবোর্ডে কপি করা হয়েছে!');
+    });
+
+    downloadOutputBtn.addEventListener('click', () => {
+      if (!outputText.value) {
+        showToast('ডাউনলোড করার জন্য কোনো লেখা নেই!');
+        return;
+      }
+      const blob = new Blob([outputText.value], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = currentMode === 'uni2bijoy' ? 'converted_bijoy.txt' : 'converted_avro.txt';
+      a.click();
+      showToast('ফাইল ডাউনলোড শুরু হয়েছে');
+    });
+
+    clearAllHistoryLink.addEventListener('click', () => {
+      historyData = [];
+      renderHistoryUI();
+      showToast('সব হিস্ট্রি মুছে ফেলা হয়েছে');
+    });
+
+    // Initial Run
+    performConversion();
+    renderHistoryUI();
+  </script>
+</body>
+</html>
