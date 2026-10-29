@@ -3,7 +3,7 @@
 **Live website:** https://converter.iamnasim.com/  
 **Developer:** Nasim Bin Jasim
 
-A free, responsive web tool for converting Bengali text between **Unicode (Avro)** and **Bijoy ANSI** formats. It is designed to make Bengali text conversion simple for everyday writing, office documents, and other workflows that require either format.
+A free, responsive web tool for converting Bangla text between **Unicode (Avro)** and **Bijoy ANSI** formats. It is designed to make Bengali text conversion simple for everyday writing, office documents, and other workflows that require either format.
 
 ## Features
 
